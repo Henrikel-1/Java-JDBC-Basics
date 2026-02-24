@@ -1,49 +1,37 @@
+import dao.PessoaDAO;
+import DB.DatabaseInit;
 import model.Pessoa;
 
-import java.sql.*;
-
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
-        Connection conn = DriverManager.getConnection(
-                "jdbc:h2:./meubanco",
-                "sa",
-                ""
-        );
-        Statement stmt = conn.createStatement();
+        DatabaseInit.createTables();
 
-        stmt.execute("CREATE TABLE IF NOT EXISTS pessoa (\n" +
-                "    id INT AUTO_INCREMENT PRIMARY KEY,\n" +
-                "    nome VARCHAR(100) NOT NULL,\n" +
-                "    idade INT NOT NULL\n" +
-                ")");
+        PessoaDAO dao = new PessoaDAO();
 
-        String sql = "INSERT INTO pessoa (nome, idade) VALUES (?, ?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
+        // CREATE
+        Pessoa p1 = new Pessoa("Luan", 20);
+        int id1 = dao.inserir(p1);
+        System.out.println("Inserido: " + p1);
 
-        Pessoa pessoa = new Pessoa("luan", 20);
-        ps.setString(1, pessoa.getNome());
-        ps.setInt(2, pessoa.getIdade());
+        // READ (ALL)
+        System.out.println("\nLista:");
+        dao.listar().forEach(System.out::println);
 
-        ps.executeUpdate();
+        // READ (BY ID)
+        System.out.println("\nBuscar por ID " + id1 + ":");
+        System.out.println(dao.buscarPorId(id1).orElse(null));
 
-        System.out.println("Pessoa inserida!");
-        String sqls = "SELECT nome, idade\n" +
-                "FROM pessoa\n" +
-                "WHERE idade > 18";
+        // UPDATE
+        p1.setNome("Luan Atualizado");
+        p1.setIdade(21);
+        dao.atualizar(p1);
+        System.out.println("\nDepois do update:");
+        dao.listar().forEach(System.out::println);
 
-        PreparedStatement pss = conn.prepareStatement(sqls);
-        ResultSet rs = pss.executeQuery();
-
-        while(rs.next()) {
-            String nome = rs.getString("nome");
-            int idade = rs.getInt("idade");
-            System.out.println("Maior de idade:" + nome +", "+ idade);
-        }
-
-        stmt.close();
-        conn.close();
-
-
+        // DELETE
+        dao.removerPorId(id1);
+        System.out.println("\nDepois do delete:");
+        dao.listar().forEach(System.out::println);
     }
 }

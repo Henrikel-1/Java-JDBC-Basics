@@ -1,0 +1,29 @@
+2026-02-24 12:55:03.932324-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2026-02-24 12:55:18.946031-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is only allowed for a query. Use execute or executeUpdate instead of executeQuery; SQL statement:
+INSERT INTO pessoa (nome, idade) VALUES (?, ?) [90002-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.Prepared.query(Prepared.java:256)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:252)
+	at org.h2.command.Command.executeQuery(Command.java:192)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:131)
+	at Main.main(Main.java:33)
+2026-02-24 13:00:27.928549-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#2" is not set; SQL statement:
+INSERT INTO pessoa (nome, idade) VALUES (?, ?) [90012-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:75)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:207)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:159)
+	at org.h2.command.Command.executeUpdate(Command.java:256)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:216)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:174)
+	at Main.main(Main.java:48)

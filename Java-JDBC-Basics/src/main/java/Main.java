@@ -22,7 +22,7 @@ public class Main {
         PreparedStatement ps = conn.prepareStatement(sql);
 
         Pessoa pessoa = new Pessoa("luan", 20);
-        ps.setString(1, pessoa.getName());
+        ps.setString(1, pessoa.getNome());
         ps.setInt(2, pessoa.getIdade());
 
         ps.executeUpdate();
